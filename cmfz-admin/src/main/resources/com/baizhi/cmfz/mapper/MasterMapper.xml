@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "../mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cmfz.dao.MasterDao">
+     <resultMap id="master" type="com.baizhi.cmfz.entity.Master">
+         <id property="masterId" column="master_ID" />
+         <result property="masterName" column="master_Name"/>
+         <result property="masterPhoto" column="master_Photo"/>
+         <result property="masterSummary" column="master_Summary"/>
+     </resultMap>
+
+    <select id="selectByName" resultMap="master">
+        select * from master
+        where master_Name like '%#{0}%'
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectById" resultMap="master">
+        select * from master
+        where master_ID = #{0}
+    </select>
+
+    <select id="selectAll" resultMap="master">
+        select * from master
+        limit #{start},#{end}
+    </select>
+
+    <update id="update">
+        update master
+        set master_Name=#{masterName},master_Photo=#{masterPhoto},master_Summary=#{masterSummary}
+        where master_ID=#{masterId}
+    </update>
+
+    <select id="getCountByName" resultType="java.lang.Integer">
+        select count(*)
+        from master
+        where where master_Name like '%#{0}%'
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*)
+        from master
+    </select>
+</mapper>

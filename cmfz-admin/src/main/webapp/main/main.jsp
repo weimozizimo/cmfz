@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,9 +10,49 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/IconExtension.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript">
-	
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script><script type="text/javascript" src="datagrid-detailview.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/datagrid-detailview.js"></script>
+	<script type="text/javascript">
+    function addTab(menuName,menuUrl){
+      	var b = $("#tt").tabs("exists",menuName);
+      	if(b){
+      	    $("#tt").tabs("select",menuName);
+		}else{
+      	    $("#tt").tabs("add",{
+      	       title:menuName,
+				justified:true,
+				closable:true,
+                href:"${pageContext.request.contextPath}"+menuUrl,
+			});
+		}
+
+    }
+	$(function(){
+	   $.ajax({
+		   url:"${pageContext.request.contextPath}/menu",
+		   dataType:"json",
+		   success:function(res){
+//		       console.log();
+			   //遍历响应集合
+			   //参数res：代表当前遍历的集合
+			   //index 代表当前遍历的下标
+			   //obj 代表当前遍历的对象
+			   $.each(res,function(index,obj){
+			       console.log(obj);
+			       var content="";
+                   $.each(obj.childMenu,function(index1,obj1){
+                       content +="<p><a class='easyui-linkbutton' data-options=\"iconCls:'"+obj1.menuCls+"',plain:true\" style='width: 205px' onclick=\"addTab('"+obj1.menuName+"','"+obj1.menuUrl+"')\" >"+obj1.menuName+"</a></p>";
+                   });
+				   $("#aa").accordion("add",{
+				       title:obj.menuName,
+					   iconCls:obj.menuIcon,
+					   content:content,
+
+				   });
+			   });
+           }
+	   });
+	});
 </script>
 
 </head>
@@ -26,9 +67,6 @@
        
     <div data-options="region:'west',title:'导航菜单',split:true" style="width:220px;">
     	<div id="aa" class="easyui-accordion" data-options="fit:true">
-    		<div title="${menus}" data-options="iconCls:'icon-save',fit:true" style="overflow: auto;padding: 10px;">
-
-			</div>
 		</div>  
     </div>   
     <div data-options="region:'center'">

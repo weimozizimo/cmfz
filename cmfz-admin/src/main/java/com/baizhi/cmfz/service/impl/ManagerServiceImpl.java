@@ -31,6 +31,7 @@ public class ManagerServiceImpl implements ManagerService{
     public Manager login(String mgrName, String mgrPwd) {
         Manager mgr = null;
         mgr = mg.findManager(mgrName);
+
         if(mgr!=null){
             mgrPwd= DigestUtils.md5Hex(mgrPwd+mgr.getMgrSalt());
             if(mgr.getMgrName().equals(mgrName)&& mgr.getMgrPwd().equals(mgrPwd)){

@@ -3,7 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cmfz-admin" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cmfz-admin/src/main/java/com/baizhi/cmfz/util/SnowflakeIdWorker.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/cmfz-admin/src/main/java/com/baizhi/cmfz/controller/ManagerController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cmfz-admin/src/main/java/com/baizhi/cmfz/service/impl/PictureServiceImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cmfz-rest" charset="UTF-8" />
   </component>
 </project>

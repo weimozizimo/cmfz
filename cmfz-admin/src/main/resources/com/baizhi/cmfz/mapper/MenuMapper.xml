@@ -28,6 +28,7 @@
         c.*
         from t_menu p LEFT JOIN t_menu c
         on p.id = c.menu_parent_id
+        where p.menu_level=1
     </select>
 
 </mapper>
