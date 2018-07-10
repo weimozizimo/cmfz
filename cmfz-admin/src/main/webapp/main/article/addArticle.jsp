@@ -12,6 +12,12 @@
 		   buttonText:'选择文件',
 		   buttonAlign:'right'
 	   });
+	   $("#submit").linkbutton({
+		   text:'提交',
+		   onClick:function(){
+
+		   };
+	   })
 	});
     var E = window.wangEditor;
     var editor = new E('#editor');
@@ -52,6 +58,11 @@
 			<td colspan="2">
 				<div id="editor">
 				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input id="submit"  />
 			</td>
 		</tr>
 	</table>
