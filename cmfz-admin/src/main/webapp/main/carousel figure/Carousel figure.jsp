@@ -13,7 +13,7 @@
 			title:'修改',
 			width:400,
 			height:400,
-			href:"${pageContext.request.contextPath}/main/editPicForm.jsp",
+			href:"${pageContext.request.contextPath}/main/carousel figure/editPicForm.jsp",
 			onLoad:function(){
 			    $("#editForm").form("load",{
 			        pictureId:pic.pictureId,
@@ -59,7 +59,7 @@
 						title:'新增轮播图',
 						width:400,
 						height:300,
-                        href:"${pageContext.request.contextPath}/main/addPicForm.jsp",
+                        href:"${pageContext.request.contextPath}/main/carousel figure/addPicForm.jsp",
 					});
 			   }
 		   }],

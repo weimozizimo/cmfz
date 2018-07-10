@@ -15,7 +15,11 @@ public interface MasterService {
 
     public Map<String,Object> queryAll(Integer pageIndex, Integer pageLine);
 
-    public Master queryById(Integer masterId);
+    public List<Master> queryAll();
+
+    public Map<String,Object> queryById(Integer masterId);
 
     public Boolean modify(Master master);
+
+    public Boolean add(Master master);
 }

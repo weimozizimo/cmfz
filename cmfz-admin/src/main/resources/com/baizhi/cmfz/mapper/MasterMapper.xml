@@ -10,7 +10,7 @@
 
     <select id="selectByName" resultMap="master">
         select * from master
-        where master_Name like '%#{0}%'
+        where master_Name like CONCAT('%',#{name},'%' )
         limit #{start},#{end}
     </select>
 
@@ -21,7 +21,9 @@
 
     <select id="selectAll" resultMap="master">
         select * from master
-        limit #{start},#{end}
+        <if test="start!=null">
+            limit #{start},#{end}
+        </if>
     </select>
 
     <update id="update">
@@ -33,11 +35,16 @@
     <select id="getCountByName" resultType="java.lang.Integer">
         select count(*)
         from master
-        where where master_Name like '%#{0}%'
+        where master_Name like CONCAT('%',#{0},'%' )
     </select>
 
     <select id="getCount" resultType="java.lang.Integer">
         select count(*)
         from master
     </select>
+
+    <insert id="insert">
+        insert into master
+        values(#{masterId},#{masterName},#{masterPhoto},#{masterSummary})
+    </insert>
 </mapper>

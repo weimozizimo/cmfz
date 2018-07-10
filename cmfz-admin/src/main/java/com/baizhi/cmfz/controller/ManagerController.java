@@ -60,7 +60,7 @@ public class ManagerController {
                     response.addCookie(c1);
                     response.addCookie(c2);
                 }
-                    return "redirect:/showType";
+                    return "redirect:/main/main.jsp";
             }
         }
         return "login";
@@ -102,6 +102,7 @@ public class ManagerController {
         pic.setPictureName(myfile.getOriginalFilename());
         String Path = session.getServletContext().getRealPath("");
         String loadPath = Path.substring(0,Path.lastIndexOf("\\"))+"\\upload";
+        pic.setPictureName(uuidName+suffix);
         Boolean b = pcs.addPic(pic);
         Map<String, String> map = new HashMap<String, String>();
         if(b) {
@@ -120,13 +121,13 @@ public class ManagerController {
         String Path = session.getServletContext().getRealPath("");
         String loadPath = Path.substring(0,Path.lastIndexOf("\\"))+"\\upload";
         Map<String, String> map = new HashMap<String, String>();
-        if(myfile!=null){
+        if(myfile.getSize()!=0){
             String oldName = myfile.getOriginalFilename();
             String uuidName = UUID.randomUUID().toString().replace("-","");
             String suffix = oldName.substring(oldName.lastIndexOf("."));
             String newName = uuidName+suffix;
             pic.setPictureName(newName);
-            Boolean b = pcs.editPic(pic);
+            Boolean b = pcs.modifyPic(pic);
             if(b){
                   myfile.transferTo(new File(loadPath+"/"+newName));
                   map.put("result", "success");
@@ -134,7 +135,7 @@ public class ManagerController {
                 map.put("result", "fail");
             }
         }else{
-            Boolean b = pcs.editPic(pic);
+            Boolean b = pcs.modifyPic(pic);
             if(b){
                 map.put("result", "success");
             }else {

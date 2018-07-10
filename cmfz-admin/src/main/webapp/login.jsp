@@ -1,4 +1,4 @@
-<%@ page import="java.util.Date" contentType="text/html;utf-8" pageEncoding="utf-8" %>
+<%@ page import="java.util.Date" contentType="text/html;utf-8" pageEncoding="utf-8" isELIgnored="false" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>持名法州后台管理中心</title>
@@ -35,7 +35,7 @@
 <body>
 	
 		<div class="login">
-			<form id="loginForm" action="/manager/login" method="post" >
+			<form id="loginForm" action="${pageContext.request.contextPath}/login" method="post" >
 				
 				<table>
 					<tbody>
@@ -64,7 +64,7 @@
 							<th>验证码:</th>
 							<td>
 								<input type="text" id="enCode" name="enCode" class="text captcha" maxlength="4" autocomplete="off"/>
-								<img id="captchaImage" class="captchaImage" src="/manager/vcode" title="点击更换验证码"/>
+								<img id="captchaImage" class="captchaImage" src="${pageContext.request.contextPath}/vcode" title="点击更换验证码"/>
 							</td>
 						</tr>					
 					<tr>

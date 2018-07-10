@@ -6,13 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>持名法州主页</title>
+
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/IconExtension.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script><script type="text/javascript" src="datagrid-detailview.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/datagrid-detailview.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/echarts.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/china.js"></script>
+<script type="text/javascript">
     function addTab(menuName,menuUrl){
       	var b = $("#tt").tabs("exists",menuName);
       	if(b){

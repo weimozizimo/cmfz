@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 	$(function(){
-	    $("#cancel").linkbutton({
+	    $("#add_cancel").linkbutton({
 			text:'取消',
 			onClick:function(){
 			    $("#add").dialog("close");
@@ -15,7 +15,7 @@
 				});
 			}
 		});
-	    $("#submit").linkbutton({
+	    $("#add_sub").linkbutton({
 			text:'提交',
 			onClick:function(){
 			    $("#addForm").form('submit',{
@@ -48,9 +48,10 @@
 				value:'未展示'
 			}]
         });
-        $("#fb").filebox({
+        $("#add_fb").filebox({
 			buttonText:'选择图片',
-			buttonAlign:'left'
+			buttonAlign:'left',
+            required:true
 		});
 	});
 </script>
@@ -69,13 +70,13 @@
 		<tr>
 			<td style="text-align: right">上传轮播图:</td>
 			<td>
-				<input id="fb" type="text"  name="file" />
+				<input id="add_fb" type="text"  name="file" />
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-				<a id="submit" ></a>&nbsp;
-				<a id="cancel" ></a>
+				<a id="add_sub" ></a>&nbsp;
+				<a id="add_cancel" ></a>
 			</td>
 		</tr>
 	</table>

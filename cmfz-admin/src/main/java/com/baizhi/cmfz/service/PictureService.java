@@ -19,7 +19,7 @@ public interface PictureService {
 
     public Boolean addPic(Picture picture);
 
-    public Boolean editPic(Picture picture);
+    public Boolean modifyPic(Picture picture);
 
     public Picture queryPictureById(Integer pictureId);
 }

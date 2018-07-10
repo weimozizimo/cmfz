@@ -52,7 +52,7 @@ public class PictureServiceImpl implements PictureService {
         return flag;
     }
 
-    public Boolean editPic(Picture picture) {
+    public Boolean modifyPic(Picture picture) {
         Boolean flag=false;
         int i = pictureDao.update(picture);
         if(i>0){

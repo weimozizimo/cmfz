@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,30 @@ public class MasterServiceImpl implements MasterService {
         map.put("rows",masters);
         return map;
     }
-
-    public Master queryById(Integer masterId) {
-        Master master = null;
-        master=masterDao.selectById(masterId);
-        return master;
+    public List<Master> queryAll() {
+        List<Master> masters = masterDao.selectAll();
+        return masters;
     }
 
+    public Map<String,Object> queryById(Integer masterId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Master> list = new ArrayList<Master>();
+        Master master = null;
+        master=masterDao.selectById(masterId);
+        list.add(master);
+        map.put("total",1);
+        map.put("rows",list);
+        return map;
+    }
+
+    public Boolean add(Master master) {
+        Boolean flag = false;
+        int i = masterDao.insert(master);
+        if(i>0){
+            flag = true;
+        }
+        return true;
+    }
     public Boolean modify(Master master) {
         Boolean flag = false;
         int i = masterDao.update(master);

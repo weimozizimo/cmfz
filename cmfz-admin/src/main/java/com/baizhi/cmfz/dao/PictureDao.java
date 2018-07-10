@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @Description
+ * @Description 轮播图信息数据库操作接口类
  * @Author weizimo
  * @Time 2018/7/5 20:52.
  */
