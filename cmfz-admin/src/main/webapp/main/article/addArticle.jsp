@@ -15,9 +15,19 @@
 	   $("#submit").linkbutton({
 		   text:'提交',
 		   onClick:function(){
-
-		   };
-	   })
+				$("#addArticleForm").form("submit",{
+				  url:'${pageContext.request.contextPath}/article/addArticle',
+					success:function(res){
+				      res = JSON.parse(res);
+				      if(res.result=="success"){
+                          alert("提交成功")
+					  }else{
+				          alert("提交失败")
+					  }
+					}
+			   });
+		   },
+	   });
 	});
     var E = window.wangEditor;
     var editor = new E('#editor');
@@ -62,7 +72,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input id="submit"  />
+				<a id="submit"  />
 			</td>
 		</tr>
 	</table>
