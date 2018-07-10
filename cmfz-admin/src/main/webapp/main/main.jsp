@@ -15,6 +15,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/datagrid-detailview.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/echarts.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/china.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/wangEditor.js"></script>
 <script type="text/javascript">
     function addTab(menuName,menuUrl){
       	var b = $("#tt").tabs("exists",menuName);
