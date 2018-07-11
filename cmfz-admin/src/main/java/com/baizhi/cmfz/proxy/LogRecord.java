@@ -31,7 +31,7 @@ public class LogRecord {
     /**
      * 声明切入点表达式
      */
-    @Pointcut("execution(* com.baizhi.cmfz.service.impl.*.*modify(..))")
+    @Pointcut("execution(* com.baizhi.cmfz.service.impl.*.modify*(..))||execution(* com.baizhi.cmfz.service.impl.*.add*(..))")
     public void operLog(){}
 
     @Around("operLog()")
@@ -50,16 +50,12 @@ public class LogRecord {
         log.setAction(method.getName());
         log.setTime(new Date());
         log.setResource(pjp.getArgs()[0].getClass().getName());
+        log.setResult(obj.getClass().getName());
         String message = null;
         for (Object ob:pjp.getArgs() ){
             message+=ob.toString();
         }
         log.setMessage(message);
-        System.out.println(message);
-        System.out.println(method.getName());
-        System.out.println((String)session.getAttribute("user"));
-        System.out.println(pjp.getArgs()[0].getClass().getName());
-        System.out.println(log.toString());
         ld.insertLog(log);
         return obj;
     }

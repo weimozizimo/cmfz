@@ -14,6 +14,7 @@ public class Log {
     private String resource;
     private String action;
     private String message;
+    private String result;
 
     @Override
     public String toString() {
@@ -24,6 +25,7 @@ public class Log {
                 ", resource='" + resource + '\'' +
                 ", action='" + action + '\'' +
                 ", message='" + message + '\'' +
+                ", result='" + result + '\'' +
                 '}';
     }
 
@@ -75,15 +77,24 @@ public class Log {
         this.message = message;
     }
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     public Log() {
     }
 
-    public Log(String id, String user, Date time, String resource, String action, String message) {
+    public Log(String id, String user, Date time, String resource, String action, String message, String result) {
         this.id = id;
         this.user = user;
         this.time = time;
         this.resource = resource;
         this.action = action;
         this.message = message;
+        this.result = result;
     }
 }
