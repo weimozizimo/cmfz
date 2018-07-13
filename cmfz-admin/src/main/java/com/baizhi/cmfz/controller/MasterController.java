@@ -148,7 +148,7 @@ public class MasterController {
 
 
         //文件下载 设置响应头
-        resp.setContentType("application/x-xls");
+        resp.setContentType("application/vnd.ms-excel");
         //响应头 默认使用编码格式iso-8859-1
         String fileName = new String("上师信息表.xls".getBytes(),"iso-8859-1");
         resp.setHeader("context-disposition","attachment;filename="+fileName);

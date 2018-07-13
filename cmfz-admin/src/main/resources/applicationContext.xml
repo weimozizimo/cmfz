@@ -5,6 +5,87 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+
+    <!--shiro的过滤器工厂对象(处理拦截到的请求-->
+    <bean id="shiroFilterFactoryBean" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"></property>
+        <!--配置登录页路径-->
+        <property name="loginUrl" value="/login.jsp"></property>
+
+
+        <!--配置错误页路径-->
+        <property name="unauthorizedUrl" value="/error.jsp"></property>
+        <!--
+            定义过滤器链的拦截规则
+            过滤器:filter 请求和响应做预处理
+            Filter 接口 3个方法 doFilter(req,resp,chain)
+                                chain.doFilter(req,resp)
+
+        -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!--url=过滤器-->
+                <!--/main/main.jsp=anon-->
+                <!--/main/main.jsp=authc-->
+                /script/**=anon
+                /img/**=anon
+                /themes/**=anon
+                /vcode=anon
+                /login=anon
+                /css/**=anon
+                /js/**=anon
+                /main/main.jsp=user
+                /main/article/**=user
+                /main/dataCount/**=user
+                /main/log/**=roles[root]
+                /**=user
+            </value>
+        </property>
+    </bean>
+    <!--初始化安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realms">
+            <list>
+                <ref bean="myRealm"></ref>
+            </list>
+        </property>
+        <!--免登陆管理器-->
+        <property name="rememberMeManager" ref="rememberMeManager"></property>
+        <!--&lt;!&ndash;缓存管理器&ndash;&gt;-->
+        <property name="cacheManager" ref="cacheManager"></property>
+    </bean>
+    <!--声明记住我管理器-->
+    <bean id="rememberMeManager"   class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="simpleCookie"></property>
+    </bean>
+    <!--对记住我的cookie配置-->
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <property name="name" value="rm"></property>
+        <property name="maxAge" value="604800"></property>
+        <property name="path" value="/"></property>
+    </bean>
+
+
+    <!--ehcahe缓存框架 一般适用于本地缓存-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"></property>
+    </bean>
+
+
+    <bean id="myRealm" class="com.baizhi.cmfz.util.MyRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"></property>
+    </bean>
+
+    <!--切换动态代理方式-->
+    <aop:config proxy-target-class="true"></aop:config>
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"></property>
+        <property name="hashIterations" value="1024"></property>
+        <property name="storedCredentialsHexEncoded" value="true"></property>
+    </bean>
+
+
+
     <context:component-scan base-package="com.baizhi.cmfz">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
     </context:component-scan>
@@ -34,5 +115,6 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"></property>
     </bean>
+
     <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
 </beans>

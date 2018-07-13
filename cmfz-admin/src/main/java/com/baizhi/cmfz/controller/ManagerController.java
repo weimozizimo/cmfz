@@ -1,24 +1,31 @@
 package com.baizhi.cmfz.controller;
 
+
 import com.baizhi.cmfz.entity.Manager;
 import com.baizhi.cmfz.entity.Menu;
 import com.baizhi.cmfz.entity.Picture;
 import com.baizhi.cmfz.service.ManagerService;
-import com.baizhi.cmfz.service.MasterService;
+
 import com.baizhi.cmfz.service.MenuService;
 import com.baizhi.cmfz.service.PictureService;
 import com.baizhi.cmfz.util.ValidateImageCodeUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
+
 
 import javax.imageio.ImageIO;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +42,7 @@ import java.util.*;
 @Controller
 public class ManagerController {
     @Autowired
-    private ManagerService  ms;
+    private ManagerService ms;
 
     @Autowired
     private MenuService mns;
@@ -45,26 +52,29 @@ public class ManagerController {
 
 
     @RequestMapping("/login")
-    public String login(String mgrName, String mgrPwd,String enCode,HttpServletRequest request, HttpServletResponse response,String isRem) throws UnsupportedEncodingException {
-        Manager mgr = ms.login(mgrName,mgrPwd);
+    public String login(String mgrName, String mgrPwd, String enCode, HttpServletRequest request, HttpServletResponse response, Boolean isRem) throws UnsupportedEncodingException {
+        //在web环境下安全管理器会自动进行初始化
+        Subject subject = SecurityUtils.getSubject();
         String vcode = (String) request.getSession().getAttribute("vcode");
-        if(vcode.equalsIgnoreCase(enCode)&&!enCode.isEmpty()) {
-            if (mgr != null) {
-                request.getSession().setAttribute("manager",mgr);
-                if (isRem!=null&&isRem.equals("true")) {
-                    mgrName = java.net.URLEncoder.encode(mgrName, "utf-8");
-                    Cookie c1 = new Cookie("mgrName", mgrName);
-                    Cookie c2 = new Cookie("isRem", isRem);
-                    c1.setMaxAge(10000);
-                    c2.setMaxAge(10000);
-                    response.addCookie(c1);
-                    response.addCookie(c2);
-                }
-                    return "redirect:/main/main.jsp";
+        if (vcode.equalsIgnoreCase(enCode) && !enCode.isEmpty()) {
+            try {
+                subject.login(new UsernamePasswordToken(mgrName, mgrPwd,isRem));
+                request.getSession().setAttribute("manager", ms.queryMgr(mgrName));
+                return "redirect:/main/main.jsp";
+            } catch (IncorrectCredentialsException ice) {
+                System.out.println("密码错误");
+                ice.printStackTrace();
+                return "login";
+            } catch (AuthenticationException e) {
+                System.out.println("认证异常");
+                e.printStackTrace();
+                return "login";
             }
         }
         return "login";
     }
+
+
 
     @RequestMapping("/vcode")
     public void login(HttpServletResponse response,HttpServletRequest request) throws IOException {

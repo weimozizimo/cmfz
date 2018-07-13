@@ -1,6 +1,10 @@
 package com.baizhi.cmfz.service;
 
 import com.baizhi.cmfz.entity.Manager;
+import com.baizhi.cmfz.entity.Permission;
+import com.baizhi.cmfz.entity.Role;
+
+import java.util.List;
 
 /**
  * @Description 管理员业务层的接口类
@@ -19,4 +23,9 @@ public interface ManagerService {
      */
     public Manager login(String mgrName, String mgrPwd);
 
+    public Manager queryMgr(String mgrName);
+
+    public List<Role> queryRoleByUserName(String mgrName);
+
+    public List<Permission> queryPermissionByUserName(String mgrName);
 }

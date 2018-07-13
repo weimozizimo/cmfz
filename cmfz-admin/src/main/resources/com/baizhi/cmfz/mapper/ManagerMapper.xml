@@ -8,8 +8,78 @@
         <result property="mgrSalt" column="mgr_salt"/>
         <result property="mgrStatus" column="mgr_status"/>
     </resultMap>
-
+    <resultMap id="role" type="com.baizhi.cmfz.entity.Role">
+        <id property="roleId" column="id"></id>
+        <result property="roleName" column="role_name"></result>
+        <result property="roleTag" column="role_tag"></result>
+    </resultMap>
+    <resultMap id="permission" type="com.baizhi.cmfz.entity.Permission">
+        <id property="permissionId" column="id"></id>
+        <result property="resourceName" column="resource_name"></result>
+        <result property="resourceTag" column="resource_tag"></result>
+        <result property="resourceUrl" column="resource_url"></result>
+        <result property="permissionTag" column="permission_tag"></result>
+    </resultMap>
      <select id="findManager" resultMap="manager">
          select * from t_user where mgr_name=#{0}
      </select>
+
+    <select id="findRolesByUserName" resultMap="role">
+        select
+            *
+        from
+            t_role
+        where
+            id in(
+            select
+                role_id
+            from
+                t_user_role
+            where
+                user_id=(
+            select
+                mgr_id
+            from
+                t_user
+            where
+                 mgr_name=#{0}
+             )
+        )
+    </select>
+    <select id="findPermissionByUserName" resultMap="permission">
+        select
+            *
+        from
+            t_permission
+        where
+            id in(
+            select
+                permission_id
+            from
+                t_role_permission
+            WHERE
+                role_id in(
+                    select
+                        id
+                    from
+                        t_role
+                    where
+                        id in(
+                        select
+                            role_id
+                        from
+                            t_user_role
+                        where
+                            user_id= (
+                        select
+                            mgr_id
+                        from
+                            t_user
+                        where
+                            mgr_name='zimo'
+                        )
+                    )
+                )
+            )
+    </select>
 </mapper>

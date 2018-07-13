@@ -10,6 +10,7 @@
        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>
    </context:component-scan>
 
+    <!--Json-->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
@@ -24,11 +25,12 @@
 
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
 
+    <!--文件上传下载-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-    <property name="defaultEncoding" value="utf-8"></property>
+     <property name="defaultEncoding" value="utf-8"></property>
     </bean>
 
-
+<!--视图解析器-->
     <bean id="irvr" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/" />
         <property name="suffix" value=".jsp" />

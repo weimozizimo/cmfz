@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false" %>
+<%@ taglib prefix="shiro"  uri="http://shiro.apache.org/tags" %>
 <script type="text/javascript">
     $.fn.datebox.defaults.parser = function(s) {
         var t = new Date(s);
@@ -23,6 +24,7 @@
             }
 		});
     }
+
 	$(function(){
 	   $("#img").datagrid({
 		   title:'slideshow message',
@@ -41,17 +43,21 @@
                    }},
                {field:'pictureDescription',title:'图片描述',width:100},
                {field:'pictureStatus',title:'轮播图状态',width:100},
+			   <shiro:hasPermission name="pic:edit">
                {field:'operation',title:'操作',width:100,
 			   		formatter:function(value,row,index){
 		       			var str="<a href='#' name='opera' class='easyui-linkbutton' onclick='showEdit("+index+")' ></a>";
 		       			return str;
 					}
 			   }
+               </shiro:hasPermission>
 		   ]],
            onLoadSuccess:function(data){
                $("a[name='opera']").linkbutton({text:'编辑',plain:true,iconCls:'icon-edit'});
            },
-		   toolbar:[{
+		   toolbar:[
+			<shiro:hasPermission name="pic:add">
+		       {
                iconCls:'icon-add',
 			   text:'新增轮播图',
 			   handler:function(){
@@ -62,15 +68,20 @@
                         href:"${pageContext.request.contextPath}/main/carousel figure/addPicForm.jsp",
 					});
 			   }
-		   }],
+		   }
+            </shiro:hasPermission>
+		   ],
            view: detailview,
            detailFormatter: function(rowIndex, rowData){
                return "<img src='${pageContext.request.contextPath}/upload/"+rowData.pictureName+"'>";
            }
        });
+
 	});
 </script>
+<shiro:hasPermission name="pic:edit">
 <table id="img">
+</shiro:hasPermission>
 </table>
 <div id="edit"></div>
 <div id="add"></div>

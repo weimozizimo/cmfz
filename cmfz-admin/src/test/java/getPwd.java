@@ -1,5 +1,8 @@
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.Test;
+
+import java.security.MessageDigest;
 
 /**
  * @Description
@@ -9,8 +12,8 @@ import org.junit.Test;
 public class getPwd {
     @Test
     public void test(){
-        String salt = "2103";
-        String password = DigestUtils.md5Hex("970527"+salt);
-        System.out.println(password);
+        Md5Hash md5Hash = new Md5Hash("970527","2103",1024);
+
+        System.out.println(md5Hash);
     }
 }

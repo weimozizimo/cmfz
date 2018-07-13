@@ -1,6 +1,10 @@
 package com.baizhi.cmfz.dao;
 
 import com.baizhi.cmfz.entity.Manager;
+import com.baizhi.cmfz.entity.Permission;
+import com.baizhi.cmfz.entity.Role;
+
+import java.util.List;
 
 /**
  * @Description dao层对Manager进行数据库操作
@@ -16,4 +20,8 @@ public interface ManagerDao {
      * @Exception   无
      */
     public Manager findManager(String mgrName);
+
+    public List<Role> findRolesByUserName(String mgrName);
+
+    public List<Permission> findPermissionByUserName(String mgrName);
 }
