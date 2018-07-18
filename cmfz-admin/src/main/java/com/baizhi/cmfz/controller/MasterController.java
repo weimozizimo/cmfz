@@ -7,9 +7,14 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.util.PoiPublicUtil;
 import com.baizhi.cmfz.dao.MasterDao;
 import com.baizhi.cmfz.entity.Master;
+import com.baizhi.cmfz.entity.Picture;
 import com.baizhi.cmfz.service.MasterService;
+import com.baizhi.cmfz.util.FastDfs;
+import com.baizhi.cmfz.util.HandleMtpFileSize;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.csource.common.MyException;
+import org.csource.common.NameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,42 +49,30 @@ public class MasterController {
 
     @RequestMapping("/addMaster")
     public @ResponseBody
-    Map<String,String> addMaster(Master master, HttpSession session,@RequestParam("file") MultipartFile myfile) throws IOException {
-        String oldName = myfile.getOriginalFilename();
-        String uuidName = UUID.randomUUID().toString().replace("-","");
-        String suffix = oldName.substring(oldName.lastIndexOf("."));
-        String Path = session.getServletContext().getRealPath("");
-        String loadPath = Path.substring(0,Path.lastIndexOf("\\"))+"\\upload";
-        master.setMasterPhoto(uuidName+suffix);
+    Map<String,String> addMaster(Master master, HttpSession session,@RequestParam("file") MultipartFile myfile) throws IOException, MyException {
+        String suffix = myfile.getOriginalFilename().substring(myfile.getOriginalFilename().lastIndexOf("."));
+        String[] str = FastDfs.client.upload_file(myfile.getBytes(),suffix,new NameValuePair[]{new NameValuePair("width", HandleMtpFileSize.getHeight(myfile))});
+        master.setMasterPhoto(str[0]+"/"+str[1]);
         Boolean b = ms.add(master);
         Map<String, String> map = new HashMap<String, String>();
         if(b) {
-            myfile.transferTo(new File(loadPath+"/"+uuidName+suffix));
             map.put("result", "success");
         }else{
             map.put("result", "fail");
         }
-
-        map.put("result", "success");
         return map;
     }
 
     @RequestMapping("/editMaster")
     public @ResponseBody
-    Map<String,String> editMaster(Master master,HttpSession session,@RequestParam("file")MultipartFile myfile) throws IOException {
-        String Path = session.getServletContext().getRealPath("");
-        String loadPath = Path.substring(0,Path.lastIndexOf("\\"))+"\\upload";
+    Map<String,String> editMaster(Master master,HttpSession session,@RequestParam("file")MultipartFile myfile) throws IOException, MyException {
+        String suffix = myfile.getOriginalFilename().substring(myfile.getOriginalFilename().lastIndexOf("."));
+        String[] str = FastDfs.client.upload_file(myfile.getBytes(),suffix,new NameValuePair[]{new NameValuePair("width", HandleMtpFileSize.getHeight(myfile))});
         Map<String, String> map = new HashMap<String, String>();
         if(myfile.getSize()!=0){
-            System.out.println(myfile.getName());
-            String oldName = myfile.getOriginalFilename();
-            String uuidName = UUID.randomUUID().toString().replace("-","");
-            String suffix = oldName.substring(oldName.lastIndexOf("."));
-            String newName = uuidName+suffix;
-            master.setMasterPhoto(newName);
+            master.setMasterPhoto(str[0]+"/"+str[1]);
             Boolean b = ms.modify(master);
             if(b){
-                myfile.transferTo(new File(loadPath+"/"+newName));
                 map.put("result", "success");
             }else {
                 map.put("result", "fail");

@@ -3,7 +3,7 @@
 <mapper namespace="com.baizhi.cmfz.dao.LogDao">
      <insert id="insertLog">
          insert into t_log
-         values(#{id},#{user},#{time},#{resource},#{action},#{message},#{result)
+         values(#{id},#{user},#{time},#{resource},#{action},#{message},#{result})
      </insert>
 
     <select id="findAllLog" resultType="com.baizhi.cmfz.entity.Log">

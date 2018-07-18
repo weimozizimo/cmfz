@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * @Description
+ * @Description 通过Aspectj实现AOP，为所有数据库操作添加额外功能（记录成功的操作并存入数据库中）实现日志功能
  * @Author weizimo
  * @Time 2018/7/9 20:24.
  */
@@ -41,6 +41,7 @@ public class LogRecord {
         System.out.println("--------------------开始记录---------------------");
         //调用传递
         //obj 原始方法的返回值
+        System.out.println("记录日志中");
         Object obj = pjp.proceed();
         Log log = new Log();
         log.setId(UUID.randomUUID().toString().replace("-",""));
